@@ -13,10 +13,14 @@ export default function ProfilePage() {
       axios.get("/api/users/logout");
       toast.success("Logout successful");
       router.push("/login");
-    } catch (error: any) {
-      console.log(error.message);
-
-      toast.error(error.message);
+    } catch (error) {
+      if (error && typeof error === "object" && "message" in error) {
+        console.log((error as Error).message);
+        toast.error((error as Error).message);
+      } else {
+        console.log(error);
+        toast.error("An unknown error occurred");
+      }
     }
   };
 

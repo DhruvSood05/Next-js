@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { set } from "mongoose";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -24,9 +23,12 @@ export default function SignupPage() {
       const response = await axios.post("/api/users/signup", user);
       console.log("Signup success", response.data);
       router.push("/login");
-    } catch (error: any) {
-      console.log("Signup failed", error.message);
-
+    } catch (error) {
+      if (error && typeof error === "object" && "message" in error) {
+        console.log("Signup failed", (error as Error).message);
+      } else {
+        console.log("Signup failed", error);
+      }
       toast.error("Something went wrong");
     } finally {
       setLoading(false);

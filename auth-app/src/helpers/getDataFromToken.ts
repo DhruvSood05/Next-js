@@ -9,7 +9,7 @@ export const getDataFromToken = (request: NextRequest): string => {
       process.env.TOKEN_SECRET!
     ) as JwtPayload & { id: string };
     return decodedToken.id;
-  } catch (error) {
+  } catch {
     throw new Error("Invalid token");
   }
 };
