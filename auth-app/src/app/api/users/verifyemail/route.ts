@@ -8,6 +8,8 @@ connect();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
+    console.log(reqBody);
+
     const { token } = reqBody;
     console.log(token);
 
@@ -15,6 +17,8 @@ export async function POST(request: NextRequest) {
       verifyToken: token,
       verifyTokenExpiry: { $gt: Date.now() },
     });
+
+    console.log(user);
 
     if (!user) {
       return NextResponse.json({ error: "Invalid token" }, { status: 400 });
