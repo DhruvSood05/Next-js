@@ -15,7 +15,13 @@ export async function GET(request: NextRequest) {
       message: "User found",
       data: user,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 400 }
+    );
   }
 }

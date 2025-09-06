@@ -2,7 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { error } from "console";
+// ...existing code...
 import { sendEmail } from "@/helpers/mailer";
 
 connect();
@@ -51,7 +51,13 @@ export async function POST(request: NextRequest) {
       success: true,
       savedUser,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

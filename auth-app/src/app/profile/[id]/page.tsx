@@ -1,5 +1,3 @@
-import { GetServerSidePropsContext } from "next";
-
 interface UserProfileProps {
   params: {
     id: string;

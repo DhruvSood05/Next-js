@@ -11,7 +11,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [buttonDisabled, setButtonDisabled] = React.useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const [loading, setLoading] = React.useState(false);
 
@@ -22,9 +22,14 @@ export default function LoginPage() {
       console.log("Login success", response.data);
       toast.success("Login success");
       router.push("/profile");
-    } catch (error: any) {
-      console.log("Login failed", error.message);
-      toast.error(error.message);
+    } catch (error) {
+      if (error && typeof error === "object" && "message" in error) {
+        console.log("Login failed", (error as Error).message);
+        toast.error((error as Error).message);
+      } else {
+        console.log("Login failed", error);
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
